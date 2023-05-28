@@ -1,0 +1,80 @@
+## EC2 Instance 1
+
+lsblk
+df -hT
+sudo file -s /dev/xvdf
+sudo mkfs -t xfs /dev/xvdf
+sudo file -s /dev/xvdf
+sudo mkdir /test
+sudo mount /dev/xvdf /test
+df -hT
+cd /test
+sudo vim testfile.txt
+Hello from Rakesh
+esc
+:wq and enter
+ls -la
+sudo cat testfile.txt
+
+## Reboot Instance 1
+
+sudo reboot
+
+## Instance 1 After Reboot
+
+lsblk
+df -hT
+sudo blkid
+sudo vim /etc/fstab
+  ADD LINE 
+  UUID=YOURUUIDHEREREPLACEME  /test  xfs  defaults,nofail
+sudo mount -a
+cd /test
+ls -la
+
+## Instance 2
+
+lsblk 
+df -hT
+sudo file -s /dev/xvdf
+sudo mkdir /test
+sudo mount /dev/xvdf /test
+cd /test
+ls -la
+
+## Instance 3
+
+lsblk 
+sudo file -s /dev/xvdf
+sudo mkdir /test
+sudo mount /dev/xvdf /test
+cd /test
+ls -la
+
+## InstanceStoreTest
+Create new EC2 with type m5ad.large
+lsblk
+df -hT
+sudo file -s /dev/nvme1n1 
+sudo mkfs -t xfs /dev/nvme1n1
+sudo file -s /dev/nvme1n1
+sudo mkdir /instancestore
+sudo mount /dev/nvme1n1 /instancestore
+cd /instancestore
+sudo touch instancestore.txt
+
+## InstancStoreTest - After Restart
+df -k
+its not there
+but we can mount it
+sudo mount /dev/nvme1n1 /instancestore
+cd /instancestore
+ls -la
+
+## InstanceStoreTest - After Stop/Start
+
+sudo file -s /dev/nvme1n1
+
+
+## Disk Exapansion
+sudo growpart /dev/nvme0n1 1
